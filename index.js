@@ -90,26 +90,156 @@ let posX, posY, scale;
 // FUNCTION GENERATOR!!!
 
 let colorSelector = document.querySelector("#colorpicker");
+let panel = document.querySelector(".panel");
+let wholePanel = document.querySelector("#whole-panel")
+let startStopButton = document.querySelector("#start-stop");
+let background = document.querySelector("#background");
+let circle = document.querySelector("#circle");
+let square = document.querySelector("#square");
+let triangle = document.querySelector("#triangle");
 let isOn = false;
+let isShowing = true;
 let interval;
+let sizeIsDisabled = false;
+let opacityIsDisabled  = false;
 
 
+const SQUARES = "squares";
+const CIRCLES = "circles";
+const TRIANGLES = "triangles";
+
+let speed = document.querySelector("#speed");
+let size = document.querySelector("#size");
+let opacity = document.querySelector("#opacity");
+let randomSize = document.querySelector("#size-check");
+let randomOpacity = document.querySelector("#opacity-check");
+let sizeVal;
+let opacityVal;
+let shape;
+
+function openClosePanel() {
+    if (isShowing) {
+        wholePanel.setAttribute("style", "left: -21rem");
+        isShowing = !isShowing;
+    } else {
+        wholePanel.setAttribute("style", "left: 0");
+        isShowing = !isShowing;
+    }
+}
 
 function changeStatus() {
     isOn = !isOn;
-
     if (isOn) {
-        interval = setInterval(() => {
-            ctx.fillStyle = colorSelector.value;
-            ctx.beginPath();
-            posX = randomInt(0, w);
-            posY = randomInt(0, h);
-            scale = randomInt(5, 15);
-            ctx.arc(posX, posY, scale, 0, 2 * Math.PI);
-            ctx.fill();
-            ctx.closePath();
-        }, 50);
-    }else{
-        clearInterval(interval)
+        startStopButton.textContent = "Stop";
+        startStopButton.classList.remove("btn-success");
+        startStopButton.classList.add("btn-primary");
+        createInterval();
+    } else {
+        clearInterval(interval);
+        startStopButton.textContent = "Start";
+        startStopButton.classList.remove("btn-primary");
+        startStopButton.classList.add("btn-success");
     }
 }
+function dataChanged() {
+    clearInterval(interval);
+    if (isOn) {
+        createInterval();
+    }
+}
+
+function createInterval() {
+    if (circle.checked){
+        shape = CIRCLES;
+    }else if (square.checked){
+        shape = SQUARES;
+    }else if (triangle.checked){
+        shape = TRIANGLES;
+    }
+    interval = setInterval(() => {
+        if(randomSize.checked){
+            sizeVal = randomInt(1, 150);
+        }else{
+            sizeVal = size.value;
+        }
+        if(randomOpacity.checked){
+            opacityVal = randomInt(0, 100);
+        }else{
+            opacityVal = opacity.value;
+        }
+        ctx.fillStyle = `${hexToRgbA(colorSelector.value)},${
+            opacityVal / 100
+        })`;
+        ctx.beginPath();
+        posX = randomInt(0, w);
+        posY = randomInt(0, h);
+        if (shape === SQUARES) ctx.rect(posX, posY, sizeVal, sizeVal);
+        if (shape === CIRCLES) ctx.arc(posX, posY, sizeVal/2, 0, 2 * Math.PI);
+        if (shape === TRIANGLES) {
+            ctx.moveTo(posX, posY);
+            ctx.lineTo(posX + sizeVal / 2, posY - sizeVal);
+            ctx.lineTo(posX + sizeVal / 1, posY);
+        }
+        ctx.fill();
+        ctx.closePath();
+    }, 1500 - speed.value);
+}
+
+function disableSize(){
+    if (!sizeIsDisabled){
+        size.setAttribute('disabled', 'true')
+    }else{
+        size.removeAttribute('disabled')
+    }
+    sizeIsDisabled = !sizeIsDisabled
+}
+
+function disableOpacity(){
+    if (!opacityIsDisabled){
+        opacity.setAttribute('disabled', 'true')
+    }else{
+        opacity.removeAttribute('disabled')
+    }
+    opacityIsDisabled = !opacityIsDisabled
+}
+
+function changeBackground() {
+    ctx.fillStyle = background.value;
+    ctx.fillRect(0, 0, w, h);
+}
+
+function resetCanvas() {
+    ctx.clearRect(0, 0, w, h);
+    clearInterval(interval);
+    isOn = false;
+    background.value = "#000000";
+    changeBackground();
+    startStopButton.textContent = "Start";
+    startStopButton.classList.remove("btn-primary");
+    startStopButton.classList.add("btn-success");
+}
+
+function hexToRgbA(hex) {
+    var c;
+    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+        c = hex.substring(1).split("");
+        if (c.length == 3) {
+            c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+        }
+        c = "0x" + c.join("");
+        return "rgba(" + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",");
+    }
+    throw new Error("Bad Hex");
+}
+
+function download() {
+    var link = document.createElement("a");
+    link.download = "my-background.png";
+    link.href = document.getElementById("canvas").toDataURL();
+    link.click();
+    startStopButton.textContent = "Start";
+    startStopButton.classList.remove("btn-primary");
+    startStopButton.classList.add("btn-success");
+}
+
+changeBackground();

@@ -5,8 +5,102 @@ html {
     margin: 0;
     font-family: "Roboto", sans-serif;
     overflow: hidden;
+    height: 100%;
+    font-size: 0.7rem;
+    font-weight: 900;
 }
 
-#canvas {
-    background: black;
+#whole-panel{
+    position: fixed;
+    left: 0;
+    transition: 0.5s;
 }
+
+
+.open-panel{
+    position: relative;
+    top: 5vh;
+    left: 21rem;
+    max-width: 4rem;
+    height: 8rem;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    color: #000000 !important;
+    border-radius: 5px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+
+}
+
+.panel{
+    position: fixed;
+    width: 21rem;
+    height: 90vh;
+    top: 5vh;
+    bottom: 5vh;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 0;
+    border-bottom-right-radius: 10px;
+    padding: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
+}
+
+#colorpicker{
+    border-radius: 5px;
+    width: 100%;
+}
+
+.field-group{
+    display: flex;
+}
+
+.field{
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.shapes{
+    justify-content: space-around;
+}
+
+.background{
+    align-items: stretch;
+}
+
+#background{
+    width: 35%;
+}
+
+span{
+    margin-right: 5px;
+}
+
+#size, #speed, #opacity{
+    width: 70%;
+}
+
+
+.buttons{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.bottom{
+    width: 48%;
+}
+
+.download{
+    width: 100%;
+}
+
+.footer{
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 200;
+}
+
