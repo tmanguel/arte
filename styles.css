@@ -104,9 +104,9 @@ span{
     font-weight: 200;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 450px) {
     body,
     html{
-        font-size: 13px;
+        font-size: 12px;
     }
 }
