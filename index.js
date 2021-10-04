@@ -97,6 +97,7 @@ let background = document.querySelector("#background");
 let circle = document.querySelector("#circle");
 let square = document.querySelector("#square");
 let triangle = document.querySelector("#triangle");
+let line = document.querySelector("#line");
 let isOn = false;
 let isShowing = true;
 let interval;
@@ -107,6 +108,7 @@ let opacityIsDisabled  = false;
 const SQUARES = "squares";
 const CIRCLES = "circles";
 const TRIANGLES = "triangles";
+const LINES = "lines";
 
 let speed = document.querySelector("#speed");
 let size = document.querySelector("#size");
@@ -155,6 +157,8 @@ function createInterval() {
         shape = SQUARES;
     }else if (triangle.checked){
         shape = TRIANGLES;
+    }else if (line.checked){
+        shape = LINES;
     }
     interval = setInterval(() => {
         if(randomSize.checked){
@@ -175,6 +179,7 @@ function createInterval() {
         posY = randomInt(0, h);
         if (shape === SQUARES) ctx.rect(posX, posY, sizeVal, sizeVal);
         if (shape === CIRCLES) ctx.arc(posX, posY, sizeVal/2, 0, 2 * Math.PI);
+        if (shape === LINES) ctx.rect(posX, posY, sizeVal, sizeVal/8)
         if (shape === TRIANGLES) {
             ctx.moveTo(posX, posY);
             ctx.lineTo(posX + sizeVal / 2, posY - sizeVal);
