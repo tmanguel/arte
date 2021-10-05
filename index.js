@@ -179,12 +179,12 @@ function createInterval() {
         posY = randomInt(0, h);
         if (shape === SQUARES) ctx.rect(posX, posY, sizeVal, sizeVal);
         if (shape === CIRCLES) ctx.arc(posX, posY, sizeVal/2, 0, 2 * Math.PI);
-        if (shape === LINES) ctx.rect(posX, posY, sizeVal, sizeVal/8)
+        if (shape === LINES) ctx.rect(posX, posY, sizeVal, sizeVal/32);
         if (shape === TRIANGLES) {
             ctx.moveTo(posX, posY);
             ctx.lineTo(posX + sizeVal / 2, posY - sizeVal);
             ctx.lineTo(posX + sizeVal / 1, posY);
-        }
+        };
         ctx.fill();
         ctx.closePath();
     }, 1500 - speed.value);
