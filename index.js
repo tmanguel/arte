@@ -247,4 +247,53 @@ function download() {
     startStopButton.classList.add("btn-success");
 }
 
+canvas.addEventListener('click', (e) => {
+    console.log(e)
+    createFigureOnClick(e)
+})
+
+function createFigureOnClick(e){
+    if(randomSize.checked){
+        sizeVal = randomInt(1, 150);
+    }else{
+        sizeVal = size.value;
+    }
+    if (circle.checked){
+        posX = e.pageX;
+        posY = e.pageY;
+        shape = CIRCLES;
+    }else if (square.checked){
+        posX = e.pageX - sizeVal/2;
+        posY = e.pageY - sizeVal/2;
+        shape = SQUARES;
+    }else if (triangle.checked){
+        posX = e.pageX - sizeVal/2;
+        posY = e.pageY + sizeVal/3;
+        shape = TRIANGLES;
+    }else if (line.checked){
+        posX = e.pageX - sizeVal/2;
+        posY = e.pageY;
+        shape = LINES;
+    }
+    ctx.beginPath();
+        if(randomOpacity.checked){
+            opacityVal = randomInt(0, 100);
+        }else{
+            opacityVal = opacity.value;
+        }
+        ctx.fillStyle = `${hexToRgbA(colorSelector.value)},${
+            opacityVal / 100
+        })`;
+        if (shape === SQUARES) ctx.rect(posX, posY, sizeVal, sizeVal);
+        if (shape === CIRCLES) ctx.arc(posX, posY, sizeVal/2, 0, 2 * Math.PI);
+        if (shape === LINES) ctx.rect(posX, posY, sizeVal, sizeVal/32);
+        if (shape === TRIANGLES) {
+            ctx.moveTo(posX, posY);
+            ctx.lineTo(posX + sizeVal / 2, posY - sizeVal);
+            ctx.lineTo(posX + sizeVal / 1, posY);
+        };
+        ctx.fill();
+        ctx.closePath();
+}
+
 changeBackground();
