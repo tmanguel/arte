@@ -19,7 +19,7 @@ canvas.setAttribute("height", h);
 let posX, posY, scale;
 
 // PROCESS 1
-
+// !
 // for (let i = 0; i < 1000; i++) {
 //     ctx.fillStyle = `rgba( ${randomInt(0,255)}, ${randomInt(0,255)}, ${randomInt(0,255)}, .5)`;
 //     ctx.beginPath();
